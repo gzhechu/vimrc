@@ -33,6 +33,8 @@ Plugin 'altercation/vim-colors-solarized'       " 颜色主题
 Plugin 'tomasr/molokai'                         " 颜色主题
 Plugin 'vim-scripts/phd'                        " 颜色主题
 Plugin 'Lokaltog/vim-powerline'                 " 状态栏
+Plugin 'vim-syntastic/syntastic'                " 保存文件时候检查语法
+Plugin 'nvie/vim-flake8'                        " Python 语法
 Plugin 'octol/vim-cpp-enhanced-highlight'       " C++ 语法 高亮
 Plugin 'nathanaelkane/vim-indent-guides'        " 缩进关系关联
 Plugin 'derekwyatt/vim-fswitch'                 " C++ 头文件源文件切换
@@ -89,6 +91,7 @@ set nowrap
 " 设置状态栏主题风格
 let g:Powerline_colorscheme='solarized256'
 
+let python_highlight_all=1
 " 开启语法高亮功能
 syntax enable
 " 允许用指定语法高亮配色方案替换默认方案
