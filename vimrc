@@ -1,5 +1,5 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" 更新时间：2019-12-05
+" 更新时间：2022-05-01
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 定义快捷键的前缀，即 <Leader>
@@ -20,40 +20,35 @@ autocmd BufWritePost $MYVIMRC source $MYVIMRC
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " vundle 会接管 .vim/ 下的所有原生目录，所以先清空该目录，再通过如下命令安装 vundle：
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+" 然后 :PluginInstall 安装插件
 " vundle 环境设置
-set nocompatible                " 去除VI一致性,必须
+" set nocompatible                " 去除VI一致性,必须
 filetype off                    " 必须
 set rtp+=~/.vim/bundle/Vundle.vim
 " vundle 管理的插件列表必须位于 vundle#begin() 和 vundle#end() 之间
 call vundle#begin()
 " 让vundle管理插件版本,必须
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'tomasr/molokai'
-Plugin 'vim-scripts/phd'
-Plugin 'Lokaltog/vim-powerline'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'derekwyatt/vim-fswitch'
-Plugin 'kshenoy/vim-signature'      " 收藏夹
-Plugin 'vim-scripts/BOOKMARKS--Mark-and-Highlight-Full-Lines'
-Plugin 'majutsushi/tagbar'
-Plugin 'vim-scripts/indexer.tar.gz'
-Plugin 'vim-scripts/DfrankUtil'
-Plugin 'vim-scripts/vimprj'
-Plugin 'dyng/ctrlsf.vim'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'scrooloose/nerdcommenter'
+Plugin 'altercation/vim-colors-solarized'       " 颜色主题
+Plugin 'tomasr/molokai'                         " 颜色主题
+Plugin 'vim-scripts/phd'                        " 颜色主题
+Plugin 'Lokaltog/vim-powerline'                 " 状态栏
+Plugin 'octol/vim-cpp-enhanced-highlight'       " C++ 语法 高亮
+Plugin 'nathanaelkane/vim-indent-guides'        " 缩进关系关联
+Plugin 'derekwyatt/vim-fswitch'                 " C++ 头文件源文件切换
+Plugin 'kshenoy/vim-signature'                  " 收藏夹 :echo has('signs')
+Plugin 'vim-scripts/BOOKMARKS--Mark-and-Highlight-Full-Lines' " 书签行高亮 
+Plugin 'majutsushi/tagbar'                      " 基于标签的标识符列表
+Plugin 'dyng/ctrlsf.vim'                        " 带上下文的查找，区别 grep
+Plugin 'terryma/vim-multiple-cursors'           " 同时选中多个项目
+Plugin 'scrooloose/nerdcommenter'               " 文本块注释代码
 Plugin 'vim-scripts/DrawIt'
-Plugin 'SirVer/ultisnips'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'derekwyatt/vim-protodef'
-Plugin 'scrooloose/nerdtree'
-Plugin 'fholgado/minibufexpl.vim'
-Plugin 'gcmt/wildfire.vim'
-Plugin 'sjl/gundo.vim'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'suan/vim-instant-markdown'
+Plugin 'scrooloose/nerdtree'                    " 工程文件管理
+Plugin 'fholgado/minibufexpl.vim'               " BUFFER 多文档编辑
+Plugin 'gcmt/wildfire.vim'                      " 选中结对符内的文本
+"Plugin 'sjl/gundo.vim'                         " 多路分支 undo
+"Plugin 'Lokaltog/vim-easymotion'               " 快速移动 
+"Plugin 'suan/vim-instant-markdown'             " 编辑 markdown
 Plugin 'lilydjwg/fcitx.vim'
 " 你的所有插件需要在下面这行之前
 call vundle#end()               " 必须
@@ -63,9 +58,11 @@ filetype plugin indent on       " 必须 加载vim自带和插件相应的语法
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 配色方案，载入上面插件中的配色
 set background=dark
+"colorscheme torte
+"colorscheme desert
 "colorscheme solarized
-colorscheme molokai
-"colorscheme phd
+"colorscheme molokai
+colorscheme phd
 
 " >>
 " 辅助信息
@@ -77,13 +74,14 @@ set ruler
 set number
 " 高亮显示当前行/列
 set cursorline
-"set cursorcolumn
+set cursorcolumn
 " 高亮显示搜索结果
 set hlsearch
 " <<
 
 " 设置 gvim 显示字体
-set guifont=DejaVu\ Sans\ Mono\ Book\ 13
+"set guifont=DejaVu\ Sans\ Mono\ Book\ 13
+set guifont=Hack\ 13
 
 " 禁止折行
 set nowrap
@@ -95,8 +93,6 @@ let g:Powerline_colorscheme='solarized256'
 syntax enable
 " 允许用指定语法高亮配色方案替换默认方案
 syntax on
-
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " 代码缩进
@@ -185,9 +181,43 @@ let g:tagbar_type_cpp = {
      \ }
 \ }
 
+" 使用 ctrlsf.vim 插件在工程内全局查找光标所在关键字，设置快捷键。快捷键速记法：search in project
+nnoremap <Leader>sp :CtrlSF<CR>
 
 " 正向遍历同名标签
 nmap <Leader>tn :tnext<CR>
 " 反向遍历同名标签
 nmap <Leader>tp :tprevious<CR>
+
+" 代码块注释 常用操作：
+" cc，注释当前选中文本
+" cu，取消选中文本块的注释
+
+" 使用 NERDTree 插件查看工程文件。设置快捷键，速记：file list
+nmap <Leader>fl :NERDTreeToggle<CR>
+nnoremap <leader>nt :NERDTreeFocus<CR>
+" 设置NERDTree子窗口宽度
+let NERDTreeWinSize=32
+" 设置NERDTree子窗口位置
+let NERDTreeWinPos="right"
+" 显示隐藏文件
+let NERDTreeShowHidden=1
+" NERDTree 子窗口中不显示冗余帮助信息
+let NERDTreeMinimalUI=1
+" 删除文件时自动删除文件对应 buffer
+let NERDTreeAutoDeleteBuffer=1
+" 常用操作：回车，打开选中文件；r，刷新工程目录文件列表；I（大写），显示/隐藏隐藏文件；m，出现创建/删除/剪切/拷贝操作列表。
+
+" 显示/隐藏 MiniBufExplorer 窗口
+map <Leader>bl :MBEToggle<cr>
+" buffer 切换快捷键,  ctrl-tab 正向遍历 ctro-shift-tab 反向遍历
+map <C-Tab> :MBEbn<cr> 
+map <C-S-Tab> :MBEbp<cr> 
+
+" 结对符内文本快捷键
+map <SPACE> <Plug>(wildfire-fuel)
+vmap <S-SPACE> <Plug>(wildfire-water)
+" 适用于哪些结对符
+let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "i>", "ip"]
+
 
